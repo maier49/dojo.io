@@ -1,17 +1,17 @@
 import { deepAssign } from '@dojo/core/lang';
-import { Injector } from '@dojo/widget-core/Injector';
+import Evented from '@dojo/core/Evented';
 
 import { WorkerProperties } from './widgets/Worker';
 import { WorkerFormData } from './widgets/WorkerForm';
 
-export default class ApplicationContext extends Injector {
+export default class ApplicationContext extends Evented {
 
 	private _workerData: WorkerProperties[];
 
 	private _formData: Partial<WorkerFormData> = {};
 
 	constructor(workerData: WorkerProperties[] = []) {
-		super({});
+		super();
 		this._workerData = workerData;
 	}
 
@@ -32,9 +32,5 @@ export default class ApplicationContext extends Injector {
 		this._workerData = [ ...this._workerData, this._formData ];
 		this._formData = {};
 		this.emit({ type: 'invalidate' });
-	}
-
-	get(): ApplicationContext {
-		return this;
 	}
 }
